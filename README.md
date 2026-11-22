@@ -54,7 +54,12 @@ La carpeta `web/` es la misma ficha, pero funciona como página estática: no ne
 - **PDF:** el botón **Generar PDF** abre la impresión; elige **Guardar como PDF**.
 - **Respaldo:** en la portada, **Descargar respaldo** baja un archivo `.json`, y **Restaurar respaldo** lo carga en otro dispositivo.
 - **Los datos quedan solo en ese dispositivo y navegador.** El celular y el computador no comparten fichas entre sí.
-- **En iPhone**, instálala con **Agregar a inicio**: Safari puede borrar los datos de sitios web que no se abren durante 7 días.
+- **En iPad o iPhone**, instálala con Safari > Compartir > **Agregar a inicio** y usa siempre ese icono:
+  la app del icono y Safari guardan fichas por separado, y Safari puede borrar datos de sitios que no se abren en 7 días.
+
+- **Sin conexión:** tras abrirla una vez con internet, la app queda guardada y abre en modo avión.
+  Después de cambiar archivos de `web/` o `static/`, ejecuta `python3 herramientas/actualizar_sin_conexion.py`
+  para que los dispositivos descarguen la versión nueva.
 
 Para publicarla: en GitHub, **Settings > Pages**, origen **Deploy from a branch**, rama `main`, carpeta `/ (root)`.
 La dirección queda como `https://USUARIO.github.io/fichas-ttm/`. En una cuenta gratuita, Pages exige que el repositorio sea público.

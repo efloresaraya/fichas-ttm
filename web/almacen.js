@@ -4,7 +4,7 @@
 //               guardado como archivo en otra base IndexedDB.
 // Cada una reconstruye la ficha por sí sola; al abrir, la atrasada se pone al día.
 const Almacen = (() => {
-  const SQL_JS = "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/";
+  const SQL_JS = "vendor/sql.js-1.10.3/"; // incluido en la app para funcionar sin conexión
   let docs = null, sqlArchivo = null, sql = null;
   const errores = {};
 

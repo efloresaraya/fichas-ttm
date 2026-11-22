@@ -213,6 +213,9 @@ async function paginaFicha() {
   }
 }
 
+// Guarda la app para abrirla sin conexión (solo en https o en este equipo).
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch((e) => console.warn(e));
+
 (async () => {
   try {
     await Almacen.iniciar();
