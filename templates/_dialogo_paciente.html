@@ -1,0 +1,15 @@
+<dialog id="dialogo-paciente">
+  <h3 id="titulo-paciente">{{ 'Editar paciente' if p else 'Nuevo paciente' }}</h3>
+  <form id="form-paciente" {% if p %}data-id="{{ p.id }}"{% endif %}>
+    <label>Nombre completo *<input name="nombre" required placeholder="Ejemplo: Nombre Apellido" value="{{ p.nombre if p }}"></label>
+    <label>Documento de identidad<input name="documento" placeholder="Ejemplo: 12.345.678-9" value="{{ p.documento if p }}"></label>
+    <label>Fecha de nacimiento<input name="nacimiento" type="date" value="{{ p.nacimiento if p }}"></label>
+    <label>Teléfono<input name="telefono" placeholder="Ejemplo: +00 000 000 000" value="{{ p.telefono if p }}"></label>
+    <label>Notas<textarea name="notas" rows="2" placeholder="Ejemplo: alergias o derivación">{{ p.notas if p }}</textarea></label>
+    <p class="error-texto" id="error-paciente"></p>
+    <div class="acciones">
+      <button class="boton principal" type="submit">Guardar</button>
+      <button class="boton" type="button" id="cancelar-paciente">Cancelar</button>
+    </div>
+  </form>
+</dialog>

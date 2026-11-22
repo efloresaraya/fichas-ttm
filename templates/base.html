@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Fichas CD/TTM{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='iconos/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='iconos/apple-touch-icon.png') }}">
+  <meta name="theme-color" content="#2f4d8f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Fichas TTM">
+</head>
+<body class="{% block clase %}{% endblock %}">
+{% block cuerpo %}{% endblock %}
+</body>
+</html>

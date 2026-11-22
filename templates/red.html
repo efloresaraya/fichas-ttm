@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titulo %}Acceso en red · Fichas CD/TTM{% endblock %}
+{% block cuerpo %}
+<header class="cabecera"><h1><a href="{{ url_for('inicio') }}">Pacientes</a></h1><span>Acceso en red</span></header>
+<main class="contenido">
+  <div class="tarjeta">
+    <h3>{{ 'Acceso activado' if activo else 'Acceso desactivado' }}</h3>
+    {% if activo %}
+    <p>Desde otro equipo conectado a esta misma red, abre una de estas direcciones y usa la contraseña:</p>
+    {% for d in direcciones %}<p class="direccion">{{ d }}</p>{% endfor %}
+    <form method="post"><input type="hidden" name="accion" value="desactivar">
+      <button class="boton peligro" type="submit">Desactivar acceso en red</button></form>
+    {% else %}
+    <p>Nadie puede entrar desde otro equipo hasta que crees una contraseña.</p>
+    {% endif %}
+  </div>
+  <div class="tarjeta">
+    <h3>{{ 'Cambiar contraseña' if activo else 'Crear contraseña' }}</h3>
+    <form method="post">
+      <label>Contraseña<input type="password" name="contrasena" required minlength="{{ minimo }}" autocomplete="new-password"></label>
+      <label>Repetir contraseña<input type="password" name="repetir" required minlength="{{ minimo }}" autocomplete="new-password"></label>
+      <p class="error-texto">{{ error }}</p>
+      <button class="boton principal" type="submit">Guardar contraseña</button>
+    </form>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block cuerpo %}
+<header class="cabecera"><h1>Fichas CD/TTM</h1><span>Trastornos temporomandibulares y dolor orofacial</span>
+  {% if es_local %}<a class="enlace-derecha" href="{{ url_for('acceso_red') }}">Acceso en red</a>
+  {% else %}<form class="enlace-derecha" method="post" action="{{ url_for('salir') }}"><button class="boton">Salir</button></form>{% endif %}
+</header>
+<main class="contenido">
+  <div class="fila-titulo">
+    <h2>Pacientes</h2>
+    <button class="boton principal" data-nuevo-paciente data-abrir-paciente>Nuevo paciente</button>
+  </div>
+  {% if pacientes %}
+  <input id="buscador" type="search" placeholder="Buscar por nombre o documento" aria-label="Buscar paciente">
+  <div class="lista">
+    {% for p in pacientes %}
+    <div class="fila" data-busqueda="{{ (p.nombre ~ ' ' ~ p.documento)|lower }}">
+      <a class="enlace-fila" href="{{ url_for('ver_paciente', ident=p.id) }}">
+        <span>{{ p.nombre }}{% if p.documento %} <span class="detalle">· {{ p.documento }}</span>{% endif %}</span>
+        <span class="detalle">{{ p.n_fichas }} {{ 'ficha' if p.n_fichas == 1 else 'fichas' }}{% if p.ultima_ficha %} · última {{ p.ultima_ficha }}{% endif %}</span>
+      </a>
+      <div class="acciones">
+        <button class="boton" data-editar-paciente='{{ p|tojson }}' aria-label="Editar a {{ p.nombre }}">Editar</button>
+        <button class="boton peligro" data-eliminar="{{ url_for('eliminar_paciente', ident=p.id) }}" data-volver="{{ url_for('inicio') }}" data-confirmar="¿Eliminar a {{ p.nombre }} y sus {{ p.n_fichas }} fichas de ambas bases? No se puede deshacer." aria-label="Eliminar a {{ p.nombre }}">Eliminar</button>
+      </div>
+    </div>
+    {% endfor %}
+    <p class="vacio" id="sin-resultados" hidden>Ningún paciente coincide con la búsqueda.</p>
+  </div>
+  {% else %}
+  <div class="lista"><p class="vacio">Aún no hay pacientes. Crea el primero para abrir su ficha.</p></div>
+  {% endif %}
+  <span class="salud" id="salud"></span>
+</main>
+{% set p = None %}
+{% include "_dialogo_paciente.html" %}
+<script src="{{ url_for('static', filename='js/pacientes.js') }}"></script>
+{% endblock %}

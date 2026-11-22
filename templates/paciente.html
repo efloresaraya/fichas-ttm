@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block titulo %}{{ p.nombre }}{% endblock %}
+{% block cuerpo %}
+<header class="cabecera"><h1><a href="{{ url_for('inicio') }}">Pacientes</a></h1><span>{{ p.nombre }}</span></header>
+<main class="contenido">
+  <div class="fila-titulo">
+    <h2>{{ p.nombre }}</h2>
+    <div class="acciones">
+      <button class="boton" data-abrir-paciente>Editar datos</button>
+      <button class="boton principal" id="nueva-ficha">Nueva ficha</button>
+    </div>
+  </div>
+  <dl class="datos">
+    <div><dt>Documento</dt><dd>{{ p.documento or '—' }}</dd></div>
+    <div><dt>Nacimiento</dt><dd>{{ p.nacimiento or '—' }}</dd></div>
+    <div><dt>Teléfono</dt><dd>{{ p.telefono or '—' }}</dd></div>
+    {% if p.notas %}<div><dt>Notas</dt><dd>{{ p.notas }}</dd></div>{% endif %}
+  </dl>
+  <div class="lista">
+    {% for f in fichas %}
+    <div class="fila">
+      <a href="{{ url_for('editar_ficha', ident=f.id) }}">{{ f.fecha_examen or 'Ficha sin fecha' }}</a>
+      <span class="detalle">{{ f.examinador }}</span>
+      <div class="acciones">
+        <a class="boton" target="_blank" href="{{ url_for('pdf_ficha', ident=f.id, base='sqlite') }}">PDF desde SQLite</a>
+        <a class="boton" target="_blank" href="{{ url_for('pdf_ficha', ident=f.id, base='duckdb') }}">PDF desde DuckDB</a>
+        <button class="boton peligro" data-eliminar="{{ url_for('eliminar_ficha', ident=f.id) }}" data-confirmar="¿Eliminar esta ficha de ambas bases? No se puede deshacer.">Eliminar</button>
+      </div>
+    </div>
+    {% else %}
+    <p class="vacio">Este paciente aún no tiene fichas.</p>
+    {% endfor %}
+  </div>
+  <p><button class="boton peligro" data-eliminar="{{ url_for('eliminar_paciente', ident=p.id) }}" data-volver="{{ url_for('inicio') }}" data-confirmar="¿Eliminar a {{ p.nombre }} y todas sus fichas de ambas bases? No se puede deshacer.">Eliminar paciente</button></p>
+</main>
+{% include "_dialogo_paciente.html" %}
+<dialog id="dialogo-ficha">
+  <h3>Nueva ficha</h3>
+  <form id="form-ficha" data-id="{{ p.id }}" data-nombre="{{ p.nombre }}">
+    <label>Examinador<input name="examinador" autofocus placeholder="Ejemplo: Nombre Apellido"></label>
+    <p class="error-texto" id="error-ficha"></p>
+    <div class="acciones">
+      <button class="boton principal" type="submit">Crear ficha</button>
+      <button class="boton" type="button" id="cancelar-ficha">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+<script src="{{ url_for('static', filename='js/pacientes.js') }}"></script>
+{% endblock %}
