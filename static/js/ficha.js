@@ -5,6 +5,7 @@ const GROSORES = {
   resaltador: [7, 11, 16],
   texto: [7, 9, 12],
 };
+const NOMBRES_BASES = { sqlite: "SQLite", duckdb: "DuckDB", documentos: "Documentos" };
 const DEMORA_GUARDADO = 400;
 const ESPERA_MAXIMA_GUARDADO = 2000; // guarda aunque se siga escribiendo sin pausa
 
@@ -73,23 +74,31 @@ async function guardar() {
   return enCurso;
 }
 
+// La versión con servidor guarda por la API; la versión web trae su propio FICHA.guardar.
+async function guardarEnServidor(versionBase, documento) {
+  const r = await fetch(`/api/fichas/${FICHA.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ version: versionBase, documento }),
+  });
+  const datos = await r.json();
+  if (r.status === 409) return { conflicto: true };
+  if (!r.ok) throw new Error(datos.error);
+  return datos;
+}
+
 async function enviar() {
   try {
-    const r = await fetch(`/api/fichas/${FICHA.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ version, documento: doc }),
-    });
-    const datos = await r.json();
-    if (r.status === 409) {
+    const datos = await (FICHA.guardar || guardarEnServidor)(version, doc);
+    if (datos.conflicto) {
       avisar("Esta ficha se modificó en otra ventana. Recarga la página.", "error");
       return false;
     }
-    if (!r.ok) throw new Error(datos.error);
     version = datos.version;
     const fallos = Object.entries(datos.estados).filter(([, ok]) => !ok).map(([n]) => n);
-    if (fallos.length) avisar(`Guardado solo en una base; falló ${fallos[0]}`, "error");
-    else avisar("Guardado en SQLite y DuckDB", "ok");
+    const nombres = Object.keys(datos.estados).map((n) => NOMBRES_BASES[n] || n);
+    if (fallos.length) avisar(`Guardado solo en una base; falló ${NOMBRES_BASES[fallos[0]] || fallos[0]}`, "error");
+    else avisar(`Guardado en ${nombres.join(" y ")}`, "ok");
     return true;
   } catch (e) {
     sucio = true;
@@ -105,7 +114,7 @@ window.addEventListener("beforeunload", (e) => {
 
 // Último intento al cerrar o dejar la página, también en celulares.
 window.addEventListener("pagehide", () => {
-  if (!sucio) return;
+  if (!sucio || FICHA.guardar) return;
   fetch(`/api/fichas/${FICHA.id}`, {
     method: "PUT",
     keepalive: true,
@@ -411,7 +420,7 @@ function prepararBarra() {
   });
   document.getElementById("btn-deshacer").addEventListener("click", () => viajar(deshacer, rehacer));
   document.getElementById("btn-rehacer").addEventListener("click", () => viajar(rehacer, deshacer));
-  document.getElementById("btn-pdf").addEventListener("click", descargarPdf);
+  document.getElementById("btn-pdf").addEventListener("click", FICHA.pdf ? imprimirDesdeBase : descargarPdf);
 
   let zoom = 1;
   const aplicarZoom = (d) => {
@@ -458,6 +467,14 @@ async function descargarPdf() {
     boton.disabled = false;
     boton.textContent = "Generar PDF";
   }
+}
+
+// Versión web: guarda, repinta con la ficha leída de la base elegida y abre la impresión.
+async function imprimirDesdeBase() {
+  document.activeElement?.blur?.();
+  confirmar();
+  await guardar();
+  await FICHA.pdf(document.getElementById("base-pdf").value, hojas, doc);
 }
 
 function iniciar() {

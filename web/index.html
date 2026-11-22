@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../static/css/estilo.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="../static/iconos/favicon.png">
+  <link rel="apple-touch-icon" href="../static/iconos/apple-touch-icon.png">
+  <meta name="theme-color" content="#2f4d8f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Fichas TTM">
+  <title>Fichas CD/TTM</title>
+</head>
+<body>
+<header class="cabecera"><h1>Fichas CD/TTM</h1><span>Trastornos temporomandibulares y dolor orofacial</span></header>
+<main class="contenido">
+  <div class="fila-titulo">
+    <h2>Pacientes</h2>
+    <button class="boton principal" id="nuevo-paciente">Nuevo paciente</button>
+  </div>
+  <p class="aviso">Los datos se guardan solo en este dispositivo y en este navegador. Descarga un respaldo con frecuencia.</p>
+  <input id="buscador" type="search" placeholder="Buscar por nombre o documento" aria-label="Buscar paciente" hidden>
+  <div class="lista" id="lista-pacientes"><p class="vacio">Cargando…</p></div>
+  <div class="acciones respaldo">
+    <button class="boton" id="exportar">Descargar respaldo</button>
+    <label class="boton">Restaurar respaldo<input type="file" id="importar" accept="application/json,.json" hidden></label>
+  </div>
+  <span class="salud" id="salud"></span>
+</main>
+<dialog id="dialogo-paciente">
+  <h3 id="titulo-paciente">Nuevo paciente</h3>
+  <form id="form-paciente">
+    <label>Nombre completo *<input name="nombre" required placeholder="Ejemplo: Nombre Apellido"></label>
+    <label>Documento de identidad<input name="documento" placeholder="Ejemplo: 12.345.678-9"></label>
+    <label>Fecha de nacimiento<input name="nacimiento" type="date"></label>
+    <label>Teléfono<input name="telefono" placeholder="Ejemplo: +00 000 000 000"></label>
+    <label>Notas<textarea name="notas" rows="2" placeholder="Ejemplo: alergias o derivación"></textarea></label>
+    <p class="error-texto" id="error-paciente"></p>
+    <div class="acciones">
+      <button class="boton principal" type="submit">Guardar</button>
+      <button class="boton" type="button" id="cancelar-paciente">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+<script src="almacen.js"></script>
+<script src="web.js"></script>
+</body>
+</html>

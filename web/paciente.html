@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../static/css/estilo.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="../static/iconos/favicon.png">
+  <link rel="apple-touch-icon" href="../static/iconos/apple-touch-icon.png">
+  <meta name="theme-color" content="#2f4d8f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Fichas TTM">
+  <title>Paciente · Fichas CD/TTM</title>
+</head>
+<body>
+<header class="cabecera"><h1><a href="index.html">Pacientes</a></h1><span id="nombre-cabecera"></span></header>
+<main class="contenido">
+  <div class="fila-titulo">
+    <h2 id="nombre-paciente">Cargando…</h2>
+    <div class="acciones">
+      <button class="boton" id="editar-paciente">Editar datos</button>
+      <button class="boton principal" id="nueva-ficha">Nueva ficha</button>
+    </div>
+  </div>
+  <dl class="datos" id="datos-paciente"></dl>
+  <div class="lista" id="lista-fichas"></div>
+  <p><button class="boton peligro" id="eliminar-paciente">Eliminar paciente</button></p>
+</main>
+<dialog id="dialogo-paciente">
+  <h3 id="titulo-paciente">Nuevo paciente</h3>
+  <form id="form-paciente">
+    <label>Nombre completo *<input name="nombre" required placeholder="Ejemplo: Nombre Apellido"></label>
+    <label>Documento de identidad<input name="documento" placeholder="Ejemplo: 12.345.678-9"></label>
+    <label>Fecha de nacimiento<input name="nacimiento" type="date"></label>
+    <label>Teléfono<input name="telefono" placeholder="Ejemplo: +00 000 000 000"></label>
+    <label>Notas<textarea name="notas" rows="2" placeholder="Ejemplo: alergias o derivación"></textarea></label>
+    <p class="error-texto" id="error-paciente"></p>
+    <div class="acciones">
+      <button class="boton principal" type="submit">Guardar</button>
+      <button class="boton" type="button" id="cancelar-paciente">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+<dialog id="dialogo-ficha">
+  <h3>Nueva ficha</h3>
+  <form id="form-ficha">
+    <label>Examinador<input name="examinador" autofocus placeholder="Ejemplo: Nombre Apellido"></label>
+    <p class="error-texto" id="error-ficha"></p>
+    <div class="acciones">
+      <button class="boton principal" type="submit">Crear ficha</button>
+      <button class="boton" type="button" id="cancelar-ficha">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+<script src="almacen.js"></script>
+<script src="web.js"></script>
+</body>
+</html>

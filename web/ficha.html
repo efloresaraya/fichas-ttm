@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../static/css/estilo.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="../static/iconos/favicon.png">
+  <link rel="apple-touch-icon" href="../static/iconos/apple-touch-icon.png">
+  <meta name="theme-color" content="#2f4d8f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Fichas TTM">
+  <title>Ficha · Fichas CD/TTM</title>
+</head>
+<body class="editando">
+<div class="barra">
+  <a href="index.html" id="volver">← Paciente</a>
+  <span class="titulo" id="titulo-ficha"></span>
+  <span class="estado" id="estado" role="status">Cargando…</span>
+  <select id="base-pdf" aria-label="Base desde la que se reconstruye el PDF">
+    <option value="sqlite">Desde SQLite</option>
+    <option value="documentos">Desde Documentos</option>
+  </select>
+  <button class="boton principal" id="btn-pdf">Generar PDF</button>
+</div>
+<div class="escritorio">
+  <aside class="herramientas" aria-label="Herramientas">
+    <h3>Herramienta</h3>
+    <button data-tool="marcar">Marcar y escribir</button>
+    <button data-tool="lapiz">Lápiz</button>
+    <button data-tool="resaltador">Resaltador</button>
+    <button data-tool="texto">Texto libre</button>
+    <button data-tool="borrador">Borrador</button>
+    <h3>Color</h3>
+    <div id="paleta"></div>
+    <input type="color" id="color-propio" aria-label="Otro color">
+    <h3>Tamaño</h3>
+    <div class="niveles">
+      <button data-nivel="0" aria-pressed="false">S</button>
+      <button data-nivel="1" aria-pressed="true">M</button>
+      <button data-nivel="2" aria-pressed="false">L</button>
+    </div>
+    <h3>Edición</h3>
+    <div class="fila-botones">
+      <button class="boton" id="btn-deshacer" aria-label="Deshacer" title="Deshacer">↶</button>
+      <button class="boton" id="btn-rehacer" aria-label="Rehacer" title="Rehacer">↷</button>
+    </div>
+    <div class="fila-botones">
+      <button class="boton" id="btn-menos" aria-label="Alejar" title="Alejar">−</button>
+      <button class="boton" id="btn-mas" aria-label="Acercar" title="Acercar">+</button>
+    </div>
+  </aside>
+  <div id="paginas"></div>
+</div>
+<script src="../static/js/plantilla.js"></script>
+<script src="../static/js/render.js"></script>
+<script src="almacen.js"></script>
+<script src="web.js"></script>
+</body>
+</html>

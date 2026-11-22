@@ -46,11 +46,25 @@ Con el servidor encendido y el celular en la misma red:
 Queda un icono "Fichas TTM" que abre el sistema a pantalla completa. Los datos siguen en este Mac:
 la app solo funciona cuando el Mac está encendido y el celular está en la misma red.
 
+## Versión web en GitHub Pages (sin el Mac)
+
+La carpeta `web/` es la misma ficha, pero funciona como página estática: no necesita el servidor Python.
+
+- **Dos bases en el navegador:** Documentos (IndexedDB) y SQLite (sql.js). Si una se pierde, se reconstruye desde la otra al abrir.
+- **PDF:** el botón **Generar PDF** abre la impresión; elige **Guardar como PDF**.
+- **Respaldo:** en la portada, **Descargar respaldo** baja un archivo `.json`, y **Restaurar respaldo** lo carga en otro dispositivo.
+- **Los datos quedan solo en ese dispositivo y navegador.** El celular y el computador no comparten fichas entre sí.
+- **En iPhone**, instálala con **Agregar a inicio**: Safari puede borrar los datos de sitios web que no se abren durante 7 días.
+
+Para publicarla: en GitHub, **Settings > Pages**, origen **Deploy from a branch**, rama `main`, carpeta `/ (root)`.
+La dirección queda como `https://USUARIO.github.io/fichas-ttm/`. En una cuenta gratuita, Pages exige que el repositorio sea público.
+
 ## Hacia una app de tienda (Android/iOS)
 
 | Camino | Qué falta | Funciona sin el Mac |
 |---|---|---|
-| App web instalable (actual) | Nada | No |
+| App web con el Mac como servidor | Nada | No |
+| App web en GitHub Pages | Activar Pages | Sí, datos solo en ese dispositivo |
 | App de tienda con Capacitor que abre el sistema | Servidor en internet con HTTPS y cuentas por usuario | Sí, con internet |
 | App que guarda todo en el celular | Reescribir el servidor y las bases en el dispositivo | Sí, sin internet |
 
